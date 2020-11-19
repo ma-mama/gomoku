@@ -24,6 +24,9 @@ int calcPutPos(int board[][BOARD_SIZE], int com, int *pos_x, int *pos_y)
     };
     static int flag = 0;
     int count = 0;
+    int enem[BOARD_SIZE][BOARD_SIZE];
+    int index = 0;
+    boardInit(enem);
 
     // コンピュータが最初の1手の場合は，(7, 7)に石を置く
     if (flag == 0)
@@ -41,14 +44,18 @@ int calcPutPos(int board[][BOARD_SIZE], int com, int *pos_x, int *pos_y)
     {
         //乱数で前に置いた場所の8近傍に置く
         if (count > 2)
-        { // 5回置こうとして，どこにも置けなくなった場合はどこでもよいからおいてみる
+        { // 2回置こうとして，どこにも置けなくなった場合はどこでもよいからおいてみる
             *pos_y = (int)(rand() % 15);
             *pos_x = (int)(rand() % 15);
             printf("%d\n", count);
         }
         else
         {
-
+            //周辺のコマが相手のかどうか判定し、そのコマとの反対には置かない(先攻)
+            if(checkBoardNow(board, pre[0], pre[1], com, enem)){
+                
+            }
+            
             *pos_y = pre[0] + (int)(rand() % 3 - 1);
             *pos_x = pre[1] + (int)(rand() % 3 - 1);
         }
@@ -140,7 +147,23 @@ int isSan(int board[][BOARD_SIZE], int x, int y)
     return num;
 }
 
-int checkBoardNow(int board[][BOARD_SIZE], int pre_x, int pre_y)
+//周辺の相手のコマを調べその座標を返す関数
+bool checkBoardNow(int board[][BOARD_SIZE], int pre_x, int pre_y, int com, int enem[])
 {
-    
+    int i, j;
+    int dx[] = {-1, 0, 1};
+    int dy[] = {-1, 0, 1};
+    int index = 0;
+    bool check = false;
+    for(j = 0; j < 3; j++){
+        for(i = 0; i < 3; i++){
+            if(board[pre_x + dx[i]][pre_y + dy[j]] != com && board[pre_x + dx[i]][pre_y + dy[j]] != STONE_PLACE){
+                enem[index++] = pre_x + dx[i];
+                enem[index++] = pre_y + dy[j];
+                check = true;
+            }
+            
+        }
+    }
+    return check;
 }
