@@ -154,7 +154,7 @@ void evaluate_board(int board[][BOARD_SIZE], int eva[][BOARD_SIZE], int com, int
             if(max < eva[i][j]){
                 maxEva[0] = i;
                 maxEva[1] = j;
-                max = eva[i][j]
+                max = eva[i][j];
             }
         }
     }
