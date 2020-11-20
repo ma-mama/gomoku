@@ -1,12 +1,12 @@
 //------------------------------------------------------------------------
-// äº”ç›®ãªã‚‰ã¹AI
-//  ã“ã“ã‚’ä½œã‚‹ï¼
-//  ä¸‹è¨˜ã®ã‚µãƒ³ãƒ—ãƒ«ã¯ï¼Œç›´å‰ã«è‡ªåˆ†ãŒç½®ã„ãŸçŸ³ã®8è¿‘å‚ã®ã©ã“ã‹ã«ãƒ©ãƒ³ãƒ€ãƒ ã«çŸ³ã‚’ç½®ãã ã‘
+// ŒÜ–Ú‚È‚ç‚×AI
+//  ‚±‚±‚ğì‚éD
+//  ‰º‹L‚ÌƒTƒ“ƒvƒ‹‚ÍC’¼‘O‚É©•ª‚ª’u‚¢‚½Î‚Ì8‹ß–T‚Ì‚Ç‚±‚©‚Éƒ‰ƒ“ƒ_ƒ€‚ÉÎ‚ğ’u‚­‚¾‚¯
 //
-//  å¼•æ•°èª¬æ˜
-//    board[BOARD_SIZE][BORARD_SIZE]ï¼šäº”ç›®ä¸¦ã¹ã®ç›¤
-//    com ï¼š ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿ãŒç™½çŸ³(STONE_WHITE)ã‹é»’çŸ³(STONE_BLACK)ã‹ã‚’è¡¨ã™ï¼
-//    pos_x, pos_yï¼šçŸ³ã‚’ç½®ãå ´æ‰€ã®xåº§æ¨™ï¼Œyåº§æ¨™ ä¸¡æ–¹å‡ºåŠ›ç”¨
+//  ˆø”à–¾
+//    board[BOARD_SIZE][BORARD_SIZE]FŒÜ–Ú•À‚×‚Ì”Õ
+//    com F ƒRƒ“ƒsƒ…[ƒ^‚ª”’Î(STONE_WHITE)‚©•Î(STONE_BLACK)‚©‚ğ•\‚·D
+//    pos_x, pos_yFÎ‚ğ’u‚­êŠ‚ÌxÀ•WCyÀ•W —¼•ûo—Í—p
 //------------------------------------------------------------------------
 #include <stdio.h>
 #include <string.h>
@@ -18,17 +18,19 @@
 int calcPutPos(int board[][BOARD_SIZE], int com, int *pos_x, int *pos_y)
 {
     static int pre[2] = {
-        // ç›´å‰ã®çŸ³ã®å ´æ‰€ã‚’è¦šãˆã¦ãŠããŸã‚ã®å¤‰æ•° é©å½“ã«åˆæœŸåŒ–
+        // ’¼‘O‚ÌÎ‚ÌêŠ‚ğŠo‚¦‚Ä‚¨‚­‚½‚ß‚Ì•Ï” “K“–‚É‰Šú‰»
         BOARD_SIZE / 2,
         BOARD_SIZE / 2,
     };
     static int flag = 0;
     int count = 0;
-    int enem[BOARD_SIZE][BOARD_SIZE];
+    int enem[BOARD_SIZE] = {0};
+    int eva[BOARD_SIZE][BOARD_SIZE];
     int index = 0;
-    boardInit(enem);
+    int maxEva[2] = {0};
+    boardInit(eva);
 
-    // ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿ãŒæœ€åˆã®1æ‰‹ã®å ´åˆã¯ï¼Œ(7, 7)ã«çŸ³ã‚’ç½®ã
+    // ƒRƒ“ƒsƒ…[ƒ^‚ªÅ‰‚Ì1è‚Ìê‡‚ÍC(7, 7)‚ÉÎ‚ğ’u‚­
     if (flag == 0)
     {
         srand((unsigned int)time(NULL));
@@ -42,22 +44,25 @@ int calcPutPos(int board[][BOARD_SIZE], int com, int *pos_x, int *pos_y)
     }
     while (1)
     {
-        //ä¹±æ•°ã§å‰ã«ç½®ã„ãŸå ´æ‰€ã®8è¿‘å‚ã«ç½®ã
+        //—”‚Å‘O‚É’u‚¢‚½êŠ‚Ì8‹ß–T‚É’u‚­
         if (count > 2)
-        { // 2å›ç½®ã“ã†ã¨ã—ã¦ï¼Œã©ã“ã«ã‚‚ç½®ã‘ãªããªã£ãŸå ´åˆã¯ã©ã“ã§ã‚‚ã‚ˆã„ã‹ã‚‰ãŠã„ã¦ã¿ã‚‹
+        { // 2‰ñ’u‚±‚¤‚Æ‚µ‚ÄC‚Ç‚±‚É‚à’u‚¯‚È‚­‚È‚Á‚½ê‡‚Í‚Ç‚±‚Å‚à‚æ‚¢‚©‚ç‚¨‚¢‚Ä‚İ‚é
             *pos_y = (int)(rand() % 15);
             *pos_x = (int)(rand() % 15);
             printf("%d\n", count);
         }
         else
         {
-            //å‘¨è¾ºã®ã‚³ãƒãŒç›¸æ‰‹ã®ã‹ã©ã†ã‹åˆ¤å®šã—ã€ãã®ã‚³ãƒã¨ã®åå¯¾ã«ã¯ç½®ã‹ãªã„(å…ˆæ”»)
-            if(checkBoardNow(board, pre[0], pre[1], com, enem)){
-                
+            //ü•Ó‚ÌƒRƒ}‚ª‘Šè‚Ì‚©‚Ç‚¤‚©”»’è‚µA‚»‚ÌƒRƒ}‚Æ‚Ì”½‘Î‚É‚Í’u‚©‚È‚¢(æU)(ƒ{[ƒh‚Ì•]‰¿‚ğ0‚É)
+            if(com == STONE_BLACK){
+                if(checkBoardNow(board, pre[0], pre[1], com, enem) != com){
+                    eva[pre[0] + (0 - (enem[0]- pre[0]))][pre[1] + (0 - (enem[1] - pre[1]))] = 10;
+                }
             }
             
-            *pos_y = pre[0] + (int)(rand() % 3 - 1);
-            *pos_x = pre[1] + (int)(rand() % 3 - 1);
+            evaluate_board(board, eva, com, maxEva);
+            *pos_y = maxEva[0];
+            *pos_x = maxEva[1];
         }
         if (checkOutPos(*pos_x, *pos_y))
         {
@@ -68,7 +73,7 @@ int calcPutPos(int board[][BOARD_SIZE], int com, int *pos_x, int *pos_y)
             count++;
         }
         else
-        { // bugå‡ºã—
+        { // bugo‚µ
             printf("out of board(%d %d)\n", *pos_x, *pos_y);
             count++;
         }
@@ -79,91 +84,77 @@ int calcPutPos(int board[][BOARD_SIZE], int com, int *pos_x, int *pos_y)
     return 0;
 }
 
-int isSan(int board[][BOARD_SIZE], int x, int y)
-{
-    int i, j;
-    int dx[] = {1, 0, 1, -1};
-    int dy[] = {1, 1, 0, 1};
-    int sum_stone = 0;
-    int sum_space = 0;
-    int num = 0;
-
-    // i    0:[ï¼¼]æ–¹å‘ 1:[â”‚]æ–¹å‘ 2:[â”€]æ–¹å‘ 3:[ï¼]æ–¹å‘
-
-    for (i = 0; i < 4; i++)
-    {
-        sum_stone = 0;
-        sum_space = 0;
-        // å·¦å´ãŒç©ºã§ï¼Œï¼”ã¤ã®é€£ç¶šã™ã‚‹ãƒã‚¹ã®3ã¤ãŒçŸ³ã§æ®‹ã‚Šï¼‘ã¤ãŒç©ºã§å³ç«¯ã‚‚ç©ºã‹ï¼Œ3é€£ç¶šã™ã‚‹ãƒã‚¹ã®ï¼“ã¤ãŒçŸ³ã§ï¼Œå³ç«¯ã‚‚ç©º
-        if (!checkOutPos(x - dx[i], y - dy[i]) || (checkOutPos(x - dx[i], y - dy[i]) && board[y - dy[i]][x - dx[i]] != STONE_SPACE))
-        {
-            // å·¦å´ãŒç©ºã§ãªã„ã‹ï¼Œç›¤ã®å¤–
-            continue;
-        }
-        for (j = 0; j < 4; j++)
-        {
-            // printf("%d (%d %d) %d (%d %d) \n", board[y][x], x, y, board[y + j * dy[i]][x + j * dx[i]], x + j * dx[i], y + j * dy[i]);
-            if (checkOutPos(x + j * dx[i], y + j * dy[i]))
-            {
-                if (board[y][x] == board[y + j * dy[i]][x + j * dx[i]])
-                {
-                    sum_stone++;
-                    if (sum_stone == 3) // 3é€£ç¶š
-                        break;
-                }
-                else if (board[y + j * dy[i]][x + j * dx[i]] == STONE_SPACE) // é£›ã³ä¸‰ã®å¯èƒ½æ€§ã‚ã‚Š
-                {
-                    sum_space++;
-                }
-                else
-                { // é•ã†è‰²ã®çŸ³ãŒã‚ã‚‹
-                    break;
-                }
-            }
-        }
-        //printf("%d %d sum_stone %d sum_space %d (%d %d)\n", i, j, sum_stone, sum_space, board[y][x], board[y + j * dy[i]][x + j * dx[i]]);
-
-        if (sum_stone == 3 && sum_space == 1)
-        {
-            // å³ãŒç©ºãªã‚‰
-            if (checkOutPos(x + 4 * dx[i], y + 4 * dy[i]) && board[y + 4 * dy[i]][x + 4 * dx[i]] == STONE_SPACE)
-            {
-                printf("é£›ã³ä¸‰(%d %d)\n", x, y);
-                //é£›ã³ä¸‰
-                num++;
-            }
-        }
-        else if (sum_stone == 3 && sum_space == 0)
-        {
-            // å³ãŒç©ºãªã‚‰
-            if (checkOutPos(x + 3 * dx[i], y + 3 * dy[i]) && board[y + 3 * dy[i]][x + 3 * dx[i]] == STONE_SPACE)
-            {
-                // 3é€£ç¶š
-                printf("ä¸‰é€£(%d %d)\n", x, y);
-                num++;
-            }
-        }
-    }
-    return num;
-}
-
-//å‘¨è¾ºã®ç›¸æ‰‹ã®ã‚³ãƒã‚’èª¿ã¹ãã®åº§æ¨™ã‚’è¿”ã™é–¢æ•°
-bool checkBoardNow(int board[][BOARD_SIZE], int pre_x, int pre_y, int com, int enem[])
+//ü•Ó‚Ì‘Šè‚ÌƒRƒ}‚ğ’²‚×
+int checkBoardNow(int board[][BOARD_SIZE], int pre_x, int pre_y, int com, int enem[])
 {
     int i, j;
     int dx[] = {-1, 0, 1};
     int dy[] = {-1, 0, 1};
     int index = 0;
-    bool check = false;
+    int check = STONE_SPACE;
     for(j = 0; j < 3; j++){
         for(i = 0; i < 3; i++){
-            if(board[pre_x + dx[i]][pre_y + dy[j]] != com && board[pre_x + dx[i]][pre_y + dy[j]] != STONE_PLACE){
+            if(board[pre_x + dx[i]][pre_y + dy[j]] != com && board[pre_x + dx[i]][pre_y + dy[j]] != STONE_SPACE){
                 enem[index++] = pre_x + dx[i];
                 enem[index++] = pre_y + dy[j];
-                check = true;
+                check = board[pre_x + dx[i]][pre_y + dy[j]];
             }
+            
+            
             
         }
     }
     return check;
+}
+
+void evaluate_board(int board[][BOARD_SIZE], int eva[][BOARD_SIZE], int com, int maxEva[]){
+    int i, j;
+    int count = 0;
+    int max = 0;
+    for(j = 0; j < BOARD_SIZE; j++){
+        for(i = 0; i < BOARD_SIZE; i++){
+            if(com != STONE_BLACK && count == 0){
+                if(board[i][j] == STONE_BLACK){
+                    eva[i - 1][j + 1] = 5;
+                    eva[i][j + 1] = 5;
+                    eva[i + 1][j + 1] = 5;
+                    eva[i - 1][j] = 5;
+                    eva[i + 1][j] = 5;
+                    eva[i - 1][j - 1] = 5;
+                    eva[i][j - 1] = 5;
+                    eva[i + 1][j - 1] = 5;
+                }
+            }
+            else if(board[i][j] != com){
+                if(board[i - 1][j + 1] != com && board[i - 1][j + 1] != STONE_SPACE){
+                    eva[i + 1][j - 1] = 10;
+                    eva[i - 2][j - 2] = 10;
+                }if(board[i][j + 1] != com && board[i][j + 1] != STONE_SPACE){
+                    eva[i][j - 1] = 10;
+                    eva[i][j + 2] = 10;
+                }if(board[i + 1][j + 1] != com && board[i + 1][j + 1] != STONE_SPACE){
+                    eva[i - 1][j - 1] = 10;
+                    eva[i + 2][j + 2] = 10;
+                }if(board[i - 1][j] != com && board[i - 1][j] != STONE_SPACE){
+                    eva[i + 1][j] =10;
+                    eva[i - 2][j] = 10;
+                }if(board[i + 1][j] != com && board[i + 1][j] != STONE_SPACE){
+                    eva[i - 1][j] = 10;
+                    eva[i + 2][j] = 10;
+                }if(board[i - 1][j - 1] != com && board[i - 1][j - 1] != STONE_SPACE){
+                    eva[i + 1][j+1] =10;
+                    eva[i - 2][j - 2] = 10;
+                }
+            }
+        }
+    }
+
+    for(j = 0; j < BOARD_SIZE; j++){
+        for(i = 0; i < BOARD_SIZE; i++){
+            if(max < eva[i][j]){
+                maxEva[0] = i;
+                maxEva[1] = j;
+            }
+        }
+    }
 }

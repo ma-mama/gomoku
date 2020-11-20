@@ -1,6 +1,6 @@
-// äº”ç›®ä¸¦ã¹ï¼ˆé€£ç ï¼‰å…ˆæ‰‹ã¯é»’ã§(7,7)ã«ç½®ã
-// 3ç¨®é¡ã®ç¦ã˜æ‰‹ã®ã©ã‚Œã‚’ãƒ«ãƒ¼ãƒ«ã¨ã™ã‚‹ã‹ã¯ï¼Œcheckå¤‰æ•°ã§ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ã«æŒ‡å®šã™ã‚‹ï¼
-// ç¦ã˜æ‰‹ã®ãƒ«ãƒ¼ãƒ«ã¯ï¼Œã“ã‚Œã‚‰ã®ã‚µã‚¤ãƒˆã‚’è¦‹ã¦ä½œã£ãŸã¤ã‚‚ã‚Šï¼
+// ŒÜ–Ú•À‚×i˜Aìjæè‚Í•‚Å(7,7)‚É’u‚­
+// 3í—Ş‚Ì‹Ö‚¶è‚Ì‚Ç‚ê‚ğƒ‹[ƒ‹‚Æ‚·‚é‚©‚ÍCcheck•Ï”‚ÅƒRƒ“ƒpƒCƒ‹‚Éw’è‚·‚éD
+// ‹Ö‚¶è‚Ìƒ‹[ƒ‹‚ÍC‚±‚ê‚ç‚ÌƒTƒCƒg‚ğŒ©‚Äì‚Á‚½‚Â‚à‚èD
 //  http://iroha.poloa.net/ref/02_04.html
 //  https://ja.wikipedia.org/wiki/%E4%BA%94%E7%9B%AE%E4%B8%A6%E3%81%B9
 
@@ -23,38 +23,38 @@ int isSan(int board[][BOARD_SIZE], int x, int y);
 int isShi(int board[][BOARD_SIZE], int x, int y);
 int isRoku(int board[][BOARD_SIZE], int x, int y);
 
-int check = 6; // 1:ä¸‰ä¸‰ã®ã¿ 2:å››å››ã®ã¿ 4:é•·é€£ã®ã¿ 3:ä¸‰ä¸‰ã¨å››å›› 5:ä¸‰ä¸‰ã¨é•·é€£ 6:å››å››ã¨é•·é€£ 7:å…¨éƒ¨
+int check = 6; // 1:OO‚Ì‚İ 2:ll‚Ì‚İ 4:’·˜A‚Ì‚İ 3:OO‚Æll 5:OO‚Æ’·˜A 6:ll‚Æ’·˜A 7:‘S•”
 
 //=======================================================
 // main
 //=======================================================
 int main()
 {
-    // å¤‰æ•°å®£è¨€
+    // •Ï”éŒ¾
     int board[BOARD_SIZE][BOARD_SIZE];
     int which_turn;
     int com;
 
-    // åˆæœŸå‡¦ç†
+    // ‰Šúˆ—
     if (gameInit(board, &which_turn, &com) == 1)
         return 1;
 
     boardPrint(board);
 
-    //---- ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—
+    //---- ƒƒCƒ“ƒ‹[ƒv
     while (1)
     {
-        //--- å…¥åŠ›å‡¦ç†
+        //--- “ü—Íˆ—
         if (inputPutPos(board, which_turn, com) == 1)
             return 1;
 
-        //--- æ‰‹ç•ªäº¤ä»£å‡¦ç†
+        //--- è”ÔŒğ‘ãˆ—
         changeTurn(&which_turn);
 
-        //--- å‡ºåŠ›å‡¦ç†
+        //--- o—Íˆ—
         boardPrint(board);
 
-        //--- çµ‚äº†åˆ¤å®š
+        //--- I—¹”»’è
         if (gameEndProcess(board))
         {
             break;
@@ -64,7 +64,7 @@ int main()
 }
 
 //-------------------------------------------------
-// ç½®ãå ´æ‰€å…¥åŠ›
+// ’u‚­êŠ“ü—Í
 //-------------------------------------------------
 int inputPutPos(int board[][BOARD_SIZE], int which, int com)
 {
@@ -77,15 +77,15 @@ int inputPutPos(int board[][BOARD_SIZE], int which, int com)
     }
     else
     {
-        printf("%s", (which == 1) ? "â—" : "â—‹");
-        printf("ã®ç•ªã§ã™ã€‚ã©ã“ã«ç½®ãã¾ã™ã‹ x y ã®é †ã«å…¥åŠ›ã—ã¦ãã ã•ã„\n> ");
+        printf("%s", (which == 1) ? "œ" : "›");
+        printf("‚Ì”Ô‚Å‚·B‚Ç‚±‚É’u‚«‚Ü‚·‚© x y ‚Ì‡‚É“ü—Í‚µ‚Ä‚­‚¾‚³‚¢\n> ");
         while (1)
         {
             if (fgets(buf, sizeof buf, stdin) == NULL || buf[0] == '\n')
                 return 1;
             if (sscanf(buf, "%d %d", &pos_x, &pos_y) != 2)
             {
-                printf("ä¸æ­£ãªå…¥åŠ›ã§ã™\n >");
+                printf("•s³‚È“ü—Í‚Å‚·\n >");
                 continue;
             }
             if (checkOutPos(pos_x, pos_y) && board[pos_y][pos_x] == STONE_SPACE)
@@ -94,7 +94,7 @@ int inputPutPos(int board[][BOARD_SIZE], int which, int com)
             }
             else
             {
-                printf("ä¸æ­£ãªå…¥åŠ›ã§ã™\n> ");
+                printf("•s³‚È“ü—Í‚Å‚·\n> ");
                 continue;
             }
         }
@@ -104,7 +104,7 @@ int inputPutPos(int board[][BOARD_SIZE], int which, int com)
 }
 
 //-------------------------------------------------
-// æ‰‹ç•ªäº¤ä»£å‡¦ç†
+// è”ÔŒğ‘ãˆ—
 //-------------------------------------------------
 void changeTurn(int *which_turn)
 {
@@ -112,7 +112,7 @@ void changeTurn(int *which_turn)
 }
 
 //-------------------------------------------------
-// ç¯„å›²å¤–ãƒã‚§ãƒƒã‚¯
+// ”ÍˆÍŠOƒ`ƒFƒbƒN
 //-------------------------------------------------
 int checkOutPos(int x, int y)
 {
@@ -120,7 +120,7 @@ int checkOutPos(int x, int y)
 }
 
 //-------------------------------------------------
-// ã‚²ãƒ¼ãƒ æƒ…å ±åˆæœŸåŒ–
+// ƒQ[ƒ€î•ñ‰Šú‰»
 //-------------------------------------------------
 int gameInit(int board[][BOARD_SIZE], int *which_turn, int *com)
 {
@@ -128,7 +128,7 @@ int gameInit(int board[][BOARD_SIZE], int *which_turn, int *com)
     char buf[256];
     do
     {
-        printf("å…ˆæ‰‹ã‚’é¸ã³ã¾ã™ã‹ï¼Ÿ Yes=>1 No=>0\n> ");
+        printf("æè‚ğ‘I‚Ñ‚Ü‚·‚©H Yes=>1 No=>0\n> ");
         if (fgets(buf, sizeof buf, stdin) == NULL || buf[0] == '\n')
             return 1;
 
@@ -146,7 +146,7 @@ int gameInit(int board[][BOARD_SIZE], int *which_turn, int *com)
 }
 
 //-------------------------------------------------
-// ç›¤é¢åˆæœŸ
+// ”Õ–Ê‰Šú
 //-------------------------------------------------
 void boardInit(int board[][BOARD_SIZE])
 {
@@ -161,7 +161,7 @@ void boardInit(int board[][BOARD_SIZE])
 }
 
 //-------------------------------------------------
-// ç›¤é¢å‡ºåŠ›
+// ”Õ–Êo—Í
 //-------------------------------------------------
 void boardPrint(int board[][BOARD_SIZE])
 {
@@ -190,13 +190,13 @@ void boardPrint(int board[][BOARD_SIZE])
             switch (board[i][j])
             {
             case STONE_SPACE:
-                printf("ãƒ»");
+                printf("E");
                 break;
             case STONE_BLACK:
-                printf("â—");
+                printf("œ");
                 break;
             case STONE_WHITE:
-                printf("â—‹");
+                printf("›");
                 break;
             }
         }
@@ -206,7 +206,7 @@ void boardPrint(int board[][BOARD_SIZE])
 }
 
 //-------------------------------------------------
-// ã‚²ãƒ¼ãƒ çµ‚äº†åˆ¤å®šå‡¦ç†
+// ƒQ[ƒ€I—¹”»’èˆ—
 //-------------------------------------------------
 int gameEndProcess(int board[][BOARD_SIZE])
 {
@@ -225,7 +225,7 @@ int gameEndProcess(int board[][BOARD_SIZE])
             }
             if ((check & CHOLEN) && board[i][j] == STONE_BLACK && (isRoku(board, j, i) == true))
             {
-                printf("é•·é€£ã®ç¦ã˜æ‰‹ã§ã™ã€‚%sã®å‹ã¡ã§ã™\n", "â—‹");
+                printf("’·˜A‚Ì‹Ö‚¶è‚Å‚·B%s‚ÌŸ‚¿‚Å‚·\n", "›");
                 return 1;
             }
             if ((check & SANSAN) && board[i][j] == STONE_BLACK && (num = isSan(board, j, i)))
@@ -233,7 +233,7 @@ int gameEndProcess(int board[][BOARD_SIZE])
                 n_san += num;
                 if (n_san >= 2)
                 {
-                    printf("ä¸‰ä¸‰ã®ç¦ã˜æ‰‹ã§ã™ã€‚%sã®å‹ã¡ã§ã™\n", "â—‹");
+                    printf("OO‚Ì‹Ö‚¶è‚Å‚·B%s‚ÌŸ‚¿‚Å‚·\n", "›");
                     return 1;
                 }
             }
@@ -242,13 +242,13 @@ int gameEndProcess(int board[][BOARD_SIZE])
                 n_shi += num;
                 if (n_shi >= 2)
                 {
-                    printf("å››å››ã®ç¦ã˜æ‰‹ã§ã™ã€‚%sã®å‹ã¡ã§ã™\n", "â—‹");
+                    printf("ll‚Ì‹Ö‚¶è‚Å‚·B%s‚ÌŸ‚¿‚Å‚·\n", "›");
                     return 1;
                 }
             }
             if (lenCheck(board, j, i))
             {
-                printf("%sã®å‹ã¡ã§ã™ã€‚\n", (board[i][j] == STONE_BLACK) ? "â—" : "â—‹");
+                printf("%s‚ÌŸ‚¿‚Å‚·B\n", (board[i][j] == STONE_BLACK) ? "œ" : "›");
                 return 1;
             }
         }
@@ -257,7 +257,7 @@ int gameEndProcess(int board[][BOARD_SIZE])
 }
 
 //-------------------------------------------------
-// 5é€£ç¢ºèª
+// 5˜AŠm”F
 //-------------------------------------------------
 int lenCheck(int board[][BOARD_SIZE], int x, int y)
 {
@@ -265,7 +265,7 @@ int lenCheck(int board[][BOARD_SIZE], int x, int y)
     int dx[] = {1, 0, 1, -1};
     int dy[] = {1, 1, 0, 1};
 
-    // i    0:[ï¼¼]æ–¹å‘ 1:[â”‚]æ–¹å‘ 2:[â”€]æ–¹å‘ 3:[ï¼]æ–¹å‘
+    // i    0:[_]•ûŒü 1:[„ ]•ûŒü 2:[„Ÿ]•ûŒü 3:[^]•ûŒü
 
     for (i = 0; i < 4; i++)
     {
@@ -286,7 +286,7 @@ int lenCheck(int board[][BOARD_SIZE], int x, int y)
 }
 
 //-------------------------------------------------
-// ä¸‰ ã‚’è¦‹ã¤ã‘ã‚‹
+// O ‚ğŒ©‚Â‚¯‚é
 //-------------------------------------------------
 int isSan(int board[][BOARD_SIZE], int x, int y)
 {
@@ -297,16 +297,16 @@ int isSan(int board[][BOARD_SIZE], int x, int y)
     int sum_space = 0;
     int num = 0;
 
-    // i    0:[ï¼¼]æ–¹å‘ 1:[â”‚]æ–¹å‘ 2:[â”€]æ–¹å‘ 3:[ï¼]æ–¹å‘
+    // i    0:[_]•ûŒü 1:[„ ]•ûŒü 2:[„Ÿ]•ûŒü 3:[^]•ûŒü
 
     for (i = 0; i < 4; i++)
     {
         sum_stone = 0;
         sum_space = 0;
-        // å·¦å´ãŒç©ºã§ï¼Œï¼”ã¤ã®é€£ç¶šã™ã‚‹ãƒã‚¹ã®3ã¤ãŒçŸ³ã§æ®‹ã‚Šï¼‘ã¤ãŒç©ºã§å³ç«¯ã‚‚ç©ºã‹ï¼Œ3é€£ç¶šã™ã‚‹ãƒã‚¹ã®ï¼“ã¤ãŒçŸ³ã§ï¼Œå³ç«¯ã‚‚ç©º
+        // ¶‘¤‚ª‹ó‚ÅC‚S‚Â‚Ì˜A‘±‚·‚éƒ}ƒX‚Ì3‚Â‚ªÎ‚Åc‚è‚P‚Â‚ª‹ó‚Å‰E’[‚à‹ó‚©C3˜A‘±‚·‚éƒ}ƒX‚Ì‚R‚Â‚ªÎ‚ÅC‰E’[‚à‹ó
         if (!checkOutPos(x - dx[i], y - dy[i]) || (checkOutPos(x - dx[i], y - dy[i]) && board[y - dy[i]][x - dx[i]] != STONE_SPACE))
         {
-            // å·¦å´ãŒç©ºã§ãªã„ã‹ï¼Œç›¤ã®å¤–
+            // ¶‘¤‚ª‹ó‚Å‚È‚¢‚©C”Õ‚ÌŠO
             continue;
         }
         for (j = 0; j < 4; j++)
@@ -317,15 +317,15 @@ int isSan(int board[][BOARD_SIZE], int x, int y)
                 if (board[y][x] == board[y + j * dy[i]][x + j * dx[i]])
                 {
                     sum_stone++;
-                    if (sum_stone == 3) // 3é€£ç¶š
+                    if (sum_stone == 3) // 3˜A‘±
                         break;
                 }
-                else if (board[y + j * dy[i]][x + j * dx[i]] == STONE_SPACE) // é£›ã³ä¸‰ã®å¯èƒ½æ€§ã‚ã‚Š
+                else if (board[y + j * dy[i]][x + j * dx[i]] == STONE_SPACE) // ”ò‚ÑO‚Ì‰Â”\«‚ ‚è
                 {
                     sum_space++;
                 }
                 else
-                { // é•ã†è‰²ã®çŸ³ãŒã‚ã‚‹
+                { // ˆá‚¤F‚ÌÎ‚ª‚ ‚é
                     break;
                 }
             }
@@ -334,21 +334,21 @@ int isSan(int board[][BOARD_SIZE], int x, int y)
 
         if (sum_stone == 3 && sum_space == 1)
         {
-            // å³ãŒç©ºãªã‚‰
+            // ‰E‚ª‹ó‚È‚ç
             if (checkOutPos(x + 4 * dx[i], y + 4 * dy[i]) && board[y + 4 * dy[i]][x + 4 * dx[i]] == STONE_SPACE)
             {
-                printf("é£›ã³ä¸‰(%d %d)\n", x, y);
-                //é£›ã³ä¸‰
+                printf("”ò‚ÑO(%d %d)\n", x, y);
+                //”ò‚ÑO
                 num++;
             }
         }
         else if (sum_stone == 3 && sum_space == 0)
         {
-            // å³ãŒç©ºãªã‚‰
+            // ‰E‚ª‹ó‚È‚ç
             if (checkOutPos(x + 3 * dx[i], y + 3 * dy[i]) && board[y + 3 * dy[i]][x + 3 * dx[i]] == STONE_SPACE)
             {
-                // 3é€£ç¶š
-                printf("ä¸‰é€£(%d %d)\n", x, y);
+                // 3˜A‘±
+                printf("O˜A(%d %d)\n", x, y);
                 num++;
             }
         }
@@ -357,7 +357,7 @@ int isSan(int board[][BOARD_SIZE], int x, int y)
 }
 
 //-------------------------------------------------
-// å›› ã‚’è¦‹ã¤ã‘ã‚‹
+// l ‚ğŒ©‚Â‚¯‚é
 //-------------------------------------------------
 int isShi(int board[][BOARD_SIZE], int x, int y)
 {
@@ -368,13 +368,13 @@ int isShi(int board[][BOARD_SIZE], int x, int y)
     int sum_space = 0;
     int num = 0;
 
-    // i    0:[ï¼¼]æ–¹å‘ 1:[â”‚]æ–¹å‘ 2:[â”€]æ–¹å‘ 3:[ï¼]æ–¹å‘
+    // i    0:[_]•ûŒü 1:[„ ]•ûŒü 2:[„Ÿ]•ûŒü 3:[^]•ûŒü
 
     for (i = 0; i < 4; i++)
     {
         sum_stone = 0;
         sum_space = 0;
-        // ï¼•ã¤ã®é€£ç¶šã™ã‚‹ãƒã‚¹ã®ï¼”ã¤ãŒçŸ³ã§æ®‹ã‚Šï¼‘ã¤ãŒç©ºã‹ï¼”ã¤ã®é€£ç¶šã™ã‚‹ãƒã‚¹ã®ï¼”ã¤ãŒçŸ³ã§ï¼Œä¸¡ç«¯ã®ã©ã¡ã‚‰ã‹ã«çŸ³ãŒãªã„
+        // ‚T‚Â‚Ì˜A‘±‚·‚éƒ}ƒX‚Ì‚S‚Â‚ªÎ‚Åc‚è‚P‚Â‚ª‹ó‚©‚S‚Â‚Ì˜A‘±‚·‚éƒ}ƒX‚Ì‚S‚Â‚ªÎ‚ÅC—¼’[‚Ì‚Ç‚¿‚ç‚©‚ÉÎ‚ª‚È‚¢
         for (j = 0; j < 5; j++)
         {
             if (checkOutPos(x + j * dx[i], y + j * dy[i]))
@@ -386,27 +386,27 @@ int isShi(int board[][BOARD_SIZE], int x, int y)
                         break;
                 }
                 else if (board[y + j * dy[i]][x + j * dx[i]] == STONE_SPACE)
-                { // é£›ã³å››ã®å¯èƒ½æ€§ã‚ã‚Š
+                { // ”ò‚Ñl‚Ì‰Â”\«‚ ‚è
                     sum_space++;
                 }
-                else // é•ã†è‰²ã®çŸ³ãŒã‚ã‚‹
+                else // ˆá‚¤F‚ÌÎ‚ª‚ ‚é
                     break;
             }
         }
         if (sum_stone == 4 && sum_space == 1)
         {
-            // é£›ã³å››
+            // ”ò‚Ñl
             num++;
-            printf("é£›ã³å››(%d %d)\n", x, y);
+            printf("”ò‚Ñl(%d %d)\n", x, y);
         }
         else if (sum_stone == 4 && sum_space == 0)
         {
-            //ï¼”é€£
+            //‚S˜A
             if ((checkOutPos(x - dx[i], y - dy[i]) && board[y - dy[i]][x - dx[i]] == STONE_SPACE) ||
                 (checkOutPos(x + 4 * dx[i], y + 4 * dy[i]) && board[y + 4 * dy[i]][x + 4 * dx[i]] == STONE_SPACE))
             {
                 num++;
-                printf("å››é€£(%d %d)\n", x, y);
+                printf("l˜A(%d %d)\n", x, y);
             }
         }
     }
@@ -414,7 +414,7 @@ int isShi(int board[][BOARD_SIZE], int x, int y)
 }
 
 //-------------------------------------------------
-// ï¼–é€£ç¶šã‚’è¦‹ã¤ã‘ã‚‹
+// ‚U˜A‘±‚ğŒ©‚Â‚¯‚é
 //-------------------------------------------------
 int isRoku(int board[][BOARD_SIZE], int x, int y)
 {
@@ -424,13 +424,13 @@ int isRoku(int board[][BOARD_SIZE], int x, int y)
     int sum_stone = 0;
     int sum_space = 0;
 
-    // i    0:[ï¼¼]æ–¹å‘ 1:[â”‚]æ–¹å‘ 2:[â”€]æ–¹å‘ 3:[ï¼]æ–¹å‘
+    // i    0:[_]•ûŒü 1:[„ ]•ûŒü 2:[„Ÿ]•ûŒü 3:[^]•ûŒü
     for (i = 0; i < 4; i++)
     {
         sum_space = 0;
         sum_stone = 0;
 
-        // 6ã¤ã®é€£ç¶šã™ã‚‹ãƒã‚¹ã®5ã¤ãŒçŸ³ã§æ®‹ã‚Šï¼‘ã¤ãŒç©º
+        // 6‚Â‚Ì˜A‘±‚·‚éƒ}ƒX‚Ì5‚Â‚ªÎ‚Åc‚è‚P‚Â‚ª‹ó
         for (j = 0; j < 6; j++)
         {
             if (checkOutPos(x + j * dx[i], y + j * dy[i]))
@@ -439,15 +439,15 @@ int isRoku(int board[][BOARD_SIZE], int x, int y)
                 {
                     sum_stone++;
                     if (sum_stone == 5 && sum_space == 1)
-                    { // ï¼–ã¤ã®é€£ç¶šã™ã‚‹ãƒã‚¹ã®ã†ã¡ï¼Œ5å€‹ã«çŸ³ã‚ã‚Š
+                    { // ‚U‚Â‚Ì˜A‘±‚·‚éƒ}ƒX‚Ì‚¤‚¿C5ŒÂ‚ÉÎ‚ ‚è
                         return true;
                     }
                 }
                 else if (board[y + j * dy[i]][x + j * dx[i]] == STONE_SPACE)
-                { // å¯èƒ½æ€§ã‚ã‚Š
+                { // ‰Â”\«‚ ‚è
                     sum_space++;
                 }
-                else // é•ã†è‰²ã®çŸ³ãŒã‚ã‚‹
+                else // ˆá‚¤F‚ÌÎ‚ª‚ ‚é
                     break;
             }
         }

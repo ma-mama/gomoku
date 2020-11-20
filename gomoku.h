@@ -12,3 +12,5 @@ extern int calcPutPos(int board[][BOARD_SIZE], int com, int *pos_x, int *pos_y);
 extern int checkOutPos(int x, int y);
 extern  int isSan(int board[][BOARD_SIZE], int x, int y);
 extern void boardInit(int board[][BOARD_SIZE]);
+int checkBoardNow(int board[][BOARD_SIZE], int pre_x, int pre_y, int com, int enem[]);
+void evaluate_board(int board[][BOARD_SIZE], int eva[][BOARD_SIZE], int com, int maxEva[]);
