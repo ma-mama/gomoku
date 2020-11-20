@@ -125,7 +125,7 @@ void evaluate_board(int board[][BOARD_SIZE], int eva[][BOARD_SIZE], int com, int
                     eva[i + 1][j - 1] = 5;
                 }
             }
-            else if(board[i][j] != com){
+            if(board[i][j] != com){
                 if(board[i - 1][j + 1] != com && board[i - 1][j + 1] != STONE_SPACE){
                     eva[i + 1][j - 1] = 10;
                     eva[i - 2][j - 2] = 10;
@@ -144,6 +144,12 @@ void evaluate_board(int board[][BOARD_SIZE], int eva[][BOARD_SIZE], int com, int
                 }if(board[i - 1][j - 1] != com && board[i - 1][j - 1] != STONE_SPACE){
                     eva[i + 1][j+1] =10;
                     eva[i - 2][j - 2] = 10;
+                }if(board[i][j - 1] != com && board[i][j - 1] != STONE_SPACE){
+                    eva[i][j - 2] = 10;
+                    eva[i][j + 1] = 10;
+                }if(board[i + 1][j - 1] != com && board[i + 1][j - 1] != STONE_SPACE){
+                    eva[i - 1][j + 1] = 10;
+                    eva[i + 2][j - 2] = 10;
                 }
             }
         }
